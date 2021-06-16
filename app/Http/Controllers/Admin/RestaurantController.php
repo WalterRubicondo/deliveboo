@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Restaurant;
+use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class RestaurantController extends Controller
 {
@@ -17,12 +20,11 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-      $restaurant = Restaurant::all();
+        $restaurants = Restaurant::where('user_id', Auth::id())
+                    ->orderBy('created_at', 'desc')
+                    ->get();
 
-      return response()->json([
-        'data' => $restaurant,
-        'success' => true
-      ]);
+      return view('admin.restaurants.index', compact('restaurants'));
     }
 
     /**
@@ -33,6 +35,8 @@ class RestaurantController extends Controller
     public function create()
     {
 
+
+        return view('admin.restaurants.create');
     }
 
     /**
@@ -43,7 +47,32 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'desciption' => 'required|string',
+            'open_hour' => 'required|date_format:H:i',
+            'close_hour' => 'required|date_format:H:i',
+            'restaurant_address' => 'required|string|max:100',
+            'photo' => 'image|max:100|nullable',
+          ]);
+    
+          $data = $request->all();
+
+          $data['user_id'] = Auth::id();
+
+          $photo = null;
+          if (array_key_exists('photo', $data)) {
+            $photo = Storage::put('uploads', $data['photo']);
+          }
+    
+          $restaurant = new Restaurant();
+          $restaurant->fill($data);
+    
+          $restaurant->slug = $this->generateSlug($restaurant->name);
+          $restaurant->photo = 'storage/'.$photo;
+          $restaurant->save();
+    
+          return redirect()->route('admin.restaurants.index');
     }
 
     /**
@@ -52,9 +81,11 @@ class RestaurantController extends Controller
      * @param  \App\Restaurant  $restaurant
      * @return \Illuminate\Http\Response
      */
-    public function show(Restaurant $restaurant)
+    public function show($slug)
     {
-        //
+        $restaurant = Restaurant::where('slug', $slug)->first();
+        return view('admin.restaurants.show')->with('restaurant', $restaurant);
+        
     }
 
     /**
@@ -65,7 +96,7 @@ class RestaurantController extends Controller
      */
     public function edit(Restaurant $restaurant)
     {
-        //
+        return view('admin.restaurants.edit', compact('restaurant'));
     }
 
     /**
@@ -77,7 +108,27 @@ class RestaurantController extends Controller
      */
     public function update(Request $request, Restaurant $restaurant)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'desciption' => 'required|string',
+            'open_hour' => 'required|date_format:H:i',
+            'close_hour' => 'required|date_format:H:i',
+            'restaurant_address' => 'required|string|max:100',
+            'photo' => 'image|max:100|nullable',
+          ]);
+    
+          $data = $request->all();
+    
+          $data['slug'] = $this->generateSlug($data['name'], $restaurant->name != $data['name'], $restaurant->slug);
+
+          if (array_key_exists('photo', $data)) {
+            $photo = Storage::put('uploads', $data['photo']);
+            $data['photo'] = 'storage/'.$photo;
+          }
+    
+          $restaurant->update($data);
+
+          return redirect()->route('admin.restaurants.index');
     }
 
     /**
@@ -88,7 +139,9 @@ class RestaurantController extends Controller
      */
     public function destroy(Restaurant $restaurant)
     {
-        //
+        $restaurant->delete();
+
+        return redirect()->route('admin.restaurants.index');
     }
 
     private function generateSlug(string $name, bool $change = true, string $old_slug = '')
