@@ -23,6 +23,7 @@ class CreateRestaurantsTable extends Migration
             $table->string('restaurant_address', 100);
             $table->string('photo');
             $table->timestamps();
+
         });
     }
 
