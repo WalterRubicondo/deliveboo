@@ -6,6 +6,7 @@ use App\Restaurant;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -19,7 +20,9 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-      $restaurants = Restaurant::all();
+        $restaurants = Restaurant::where('user_id', Auth::id())
+                    ->orderBy('created_at', 'desc')
+                    ->get();
 
       return view('admin.restaurants.index', compact('restaurants'));
     }
@@ -31,9 +34,9 @@ class RestaurantController extends Controller
      */
     public function create()
     {
-        $user_id = User::all();
 
-        return view('admin.restaurants.create', compact('user_id'));
+
+        return view('admin.restaurants.create');
     }
 
     /**
@@ -54,6 +57,8 @@ class RestaurantController extends Controller
           ]);
     
           $data = $request->all();
+
+          $data['user_id'] = Auth::id();
 
           $photo = null;
           if (array_key_exists('photo', $data)) {
