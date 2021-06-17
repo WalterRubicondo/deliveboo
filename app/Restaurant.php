@@ -20,4 +20,7 @@ class Restaurant extends Model
     public function user(){
         return $this->hasMany('App\User');
     }
+    public function genres(){
+        return $this->belongsToMany('App\Genre');
+    }
 }
