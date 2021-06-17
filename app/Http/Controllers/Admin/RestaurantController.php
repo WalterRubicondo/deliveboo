@@ -55,7 +55,7 @@ class RestaurantController extends Controller
             'restaurant_address' => 'required|string|max:100',
             'photo' => 'image|max:100|nullable',
           ]);
-    
+
           $data = $request->all();
 
           $data['user_id'] = Auth::id();
@@ -64,14 +64,14 @@ class RestaurantController extends Controller
           if (array_key_exists('photo', $data)) {
             $photo = Storage::put('uploads', $data['photo']);
           }
-    
+
           $restaurant = new Restaurant();
           $restaurant->fill($data);
-    
+
           $restaurant->slug = $this->generateSlug($restaurant->name);
           $restaurant->photo = 'storage/'.$photo;
           $restaurant->save();
-    
+
           return redirect()->route('admin.restaurants.index');
     }
 
@@ -85,7 +85,7 @@ class RestaurantController extends Controller
     {
         $restaurant = Restaurant::where('slug', $slug)->first();
         return view('admin.restaurants.show')->with('restaurant', $restaurant);
-        
+
     }
 
     /**
@@ -116,16 +116,16 @@ class RestaurantController extends Controller
             'restaurant_address' => 'required|string|max:100',
             'photo' => 'image|max:100|nullable',
           ]);
-    
+
           $data = $request->all();
-    
+
           $data['slug'] = $this->generateSlug($data['name'], $restaurant->name != $data['name'], $restaurant->slug);
 
           if (array_key_exists('photo', $data)) {
             $photo = Storage::put('uploads', $data['photo']);
             $data['photo'] = 'storage/'.$photo;
           }
-    
+
           $restaurant->update($data);
 
           return redirect()->route('admin.restaurants.index');
@@ -149,7 +149,7 @@ class RestaurantController extends Controller
       if (!$change) {
         return $old_slug;
       }
-      
+
       $slug = Str::slug($name, '-');
       $slug_base = $slug;
       $counter = 1;
