@@ -69,6 +69,8 @@
                         @endguest
                     </ul>
                 </div>
+                <ul>
+                </ul>
             </div>
         </nav>
 
