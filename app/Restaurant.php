@@ -23,4 +23,7 @@ class Restaurant extends Model
     public function genres(){
         return $this->belongsToMany('App\Genre');
     }
+    public function foods(){
+        return $this->belongsTo('App\Food');
+    }
 }
