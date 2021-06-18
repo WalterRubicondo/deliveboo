@@ -17,8 +17,6 @@ class CreateRestaurantsTable extends Migration
             $table->id();
             $table->string('name', 100);
             $table->text('desciption');
-            $table->time('open_hour');
-            $table->time('close_hour');
             $table->string('slug')->unique();
             $table->string('restaurant_address', 100);
             $table->string('photo');
