@@ -1,4 +1,114 @@
-<!DOCTYPE html>
+@extends('layouts.guest')
+
+@section('page_title')
+    Pappo
+@endsection
+
+@section('content_guest')
+<section id="home">
+    <div class="home-img flex">
+        <div class="l">
+            <img src="./img/l.svg" alt="">
+        </div>
+        <div class="r">
+            <img src="./img/r.svg" alt="">
+        </div>    
+    </div>
+    <div class="title">
+        <p>EHI AMIGO COSA TI VA DI MANGIARE OGGI?</p>
+    </div>
+    <div class="btn-home">
+        <a href="#plates">SCEGLI QUALCOSA <i class="fas fa-utensils"></i></a>
+    </div>
+    <div class="ciao">
+        <a href="">ciao</a>
+    </div>
+</section>
+
+
+@endsection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
@@ -6,10 +116,6 @@
 
         <title>Pappo</title>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
-        <!-- Styles -->
     </head>
     <body>
         <div class="flex-center position-ref full-height">
@@ -34,4 +140,4 @@
             </div>
         </div>
     </body>
-</html>
+</html> -->
