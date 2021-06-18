@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Restaurant;
 use App\User;
+use App\Genre;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,8 +36,8 @@ class RestaurantController extends Controller
     public function create()
     {
 
-
-        return view('admin.restaurants.create');
+        $genres = Genre::all();
+        return view('admin.restaurants.create', compact('genres'));
     }
 
     /**
@@ -54,6 +55,7 @@ class RestaurantController extends Controller
             'close_hour' => 'required|date_format:H:i',
             'restaurant_address' => 'required|string|max:100',
             'photo' => 'image|max:100|nullable',
+            'genre_ids.*' => 'exists:genres,id'
           ]);
 
           $data = $request->all();
@@ -71,6 +73,11 @@ class RestaurantController extends Controller
           $restaurant->slug = $this->generateSlug($restaurant->name);
           $restaurant->photo = 'storage/'.$photo;
           $restaurant->save();
+
+
+          if (array_key_exists('genre_ids', $data)) {
+            $restaurant->genres()->attach($data['genre_ids']);
+          }
 
           return redirect()->route('admin.restaurants.index');
     }
@@ -96,7 +103,8 @@ class RestaurantController extends Controller
      */
     public function edit(Restaurant $restaurant)
     {
-        return view('admin.restaurants.edit', compact('restaurant'));
+        $genres = Genre::all();
+        return view('admin.restaurants.edit', compact('restaurant','generes'));
     }
 
     /**
@@ -115,6 +123,7 @@ class RestaurantController extends Controller
             'close_hour' => 'required|date_format:H:i',
             'restaurant_address' => 'required|string|max:100',
             'photo' => 'image|max:100|nullable',
+            'genre_ids.*' => 'exists:genres,id'
           ]);
 
           $data = $request->all();
@@ -128,6 +137,12 @@ class RestaurantController extends Controller
 
           $restaurant->update($data);
 
+          if (array_key_exists('genre_ids', $data)) {
+            $restaurant->genres()->sync($data['genre_ids']);
+          }else {
+            $restaurant->genres()->detach();
+          }
+
           return redirect()->route('admin.restaurants.index');
     }
 
@@ -138,7 +153,8 @@ class RestaurantController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Restaurant $restaurant)
-    {
+    {   
+        $restaurant->genres()->sync([]);
         $restaurant->delete();
 
         return redirect()->route('admin.restaurants.index');

@@ -18,13 +18,11 @@ class CreateFoodTable extends Migration
             $table->string('name',100);
             $table->text('description');
             $table->float('price',5,2);
-            $table->boolean('avaible');
+            $table->boolean('aviable');
             $table->string('photo');
-            $table->unsignedBigInteger('restaurant_id');
+           
     
-            $table->foreign('restaurant_id')
-                 ->references('id')
-                 ->on('restaurants');
+           
 
             $table->timestamps();
         });
@@ -38,9 +36,6 @@ class CreateFoodTable extends Migration
     public function down()
     {
         Schema::dropIfExists('food');
-        Schema::table('posts', function (Blueprint $table){
-            $table->dropForeign('foods_restaurant_id_foreign');
-            $table->dropColumn('restaurant_id');
-        });
+        
     }
 }

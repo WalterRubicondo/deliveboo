@@ -30,6 +30,18 @@
             </div>
 
             <div class="form-group">
+              <label for="tag">Category</label>
+              <select class="form-control @error('genre_ids') is-invalid @enderror" id="genre" name="genre_ids[]" multiple>
+              @foreach($genres as $genre)
+                <option value="{{$genre->id}}">{{$genre->name}}</option>
+              @endforeach
+              </select>
+              @error('genre_ids')
+                <small class="text-danger">{{ $message }}</small>
+              @enderror
+             </div>
+
+            <div class="form-group">
               <label for="open_hour">Open Hour</label>
               <input class="form-control @error('open_hour') is-invalid @enderror" id="open_hour" type="time" name="open_hour" value="{{ old('open_hour') }}">
               @error('open_hour')
