@@ -18,8 +18,7 @@ html {
 }
 
 nav {
-  /*     background-color: lightcoral;
-   */
+  /*     background-color: lightcoral;*/
   position: fixed;
   top: 0;
   left: 0;
@@ -36,7 +35,7 @@ nav .container-nav {
   justify-content: space-between;
 }
 
-nav .container-nav .logo {
+nav .container-nav .nav-left .logo {
   height: 100%;
   align-items: center;
   font-weight: 900;
@@ -45,16 +44,36 @@ nav .container-nav .logo {
   text-shadow: 1px 2px 5px rgba(81, 67, 21, 0.8);
 }
 
-nav .container-nav .logo:hover {
+nav .container-nav .nav-left .logo:hover {
   transform: scale(1.1);
 }
 
-nav .container-nav .logo p {
+nav .container-nav .nav-left .logo p {
   margin: 0;
   color: #05a358;
 }
 
-nav .container-nav .hamburger > * {
+nav .container-nav .nav-right .hamburger {
+  align-items: center;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+nav .container-nav .nav-right .hamburger .line1 {
+  background-color: #000;
+  height: 3px;
+  width: 25px;
+  margin-top: 0;
+  border-radius: 7px;
+  margin-left: auto;
+}
+
+nav .container-nav .nav-right .hamburger .line2,
+nav .container-nav .nav-right .hamburger .line3 {
   background-color: #000;
   height: 3px;
   width: 25px;
@@ -63,17 +82,24 @@ nav .container-nav .hamburger > * {
   margin-left: auto;
 }
 
-nav .container-nav .list-dropdown .navcollapse {
+nav .container-nav .nav-right .nav_btn_dropdown .navcollapse {
+  width: 150px;
   position: absolute;
-  right: 0;
+  right: 10%;
   top: 100px;
   flex-direction: column;
-  background-color: lightgreen;
-  padding: 30px;
+  text-align: center;
 }
 
-nav .container-nav .list-dropdown .navcollapse a {
+nav .container-nav .nav-right .nav_btn_dropdown .navcollapse a {
   margin: 15px 0;
+  font-weight: 600;
+  padding: 15px 30px;
+  border-radius: 20px;
+  background-color: #fff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  text-transform: uppercase;
+  color: #000;
 }
 
 #home {

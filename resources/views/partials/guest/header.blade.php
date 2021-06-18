@@ -6,12 +6,12 @@
             </div>
         </div>
         <div class="nav-right">
-            <div class="hamburger">
+            <div class="hamburger flex">
                 <div class="line1"></div>
                 <div class="line2"></div>
                 <div class="line3"></div>
             </div>
-            <div class="bottone">
+            <div class="nav_btn_dropdown">
                 <div class="navcollapse flex">
                     @if (Route::has('login'))
                         @auth
@@ -19,7 +19,7 @@
                         @else
                             <a href="{{ route('login') }}">Login</a>
                             @if (Route::has('register'))
-                                <a href="{{ route('register') }}">Registra il tuo ristorante</a>
+                                <a href="{{ route('register') }}">Registrati</a>
                             @endif
                         @endauth
                     @endif
